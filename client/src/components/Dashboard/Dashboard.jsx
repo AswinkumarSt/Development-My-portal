@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Filter from "../Filter/Filter.jsx"; // Import the Filter component
+import Filter from "../Filter/Filter.jsx";
 import Footer from "../footer/footer.jsx";
 import Navbar from "../navbar/navbar.jsx";
+import UserDetail from "../UserDetail/UserDetail.jsx";
 import UserForm from "../UserForm/UserForm.jsx";
 import "./Dashboard.css";
 import filterImage from '/Myportal/client/src/assets/filter1.png';
@@ -17,10 +18,17 @@ const Dashboard = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [showAddUserModal, setShowAddUserModal] = useState(false);
   const [showEditProfileModal, setShowEditProfileModal] = useState(false);
-  const [showFilterModal, setShowFilterModal] = useState(false); // New state for filter modal
+  const [showFilterModal, setShowFilterModal] = useState(false);
+  const [showUserDetail, setShowUserDetail] = useState(false);
+  const [selectedUser, setSelectedUser] = useState(null);
   const [editedUser, setEditedUser] = useState({});
   const [loading, setLoading] = useState(false);
-  const [activeFilters, setActiveFilters] = useState({ district: "", state: "" }); // New state for filters
+  const [activeFilters, setActiveFilters] = useState({ district: "", state: "" });
+  
+  // Add these states for edit functionality
+  const [showEditUserModal, setShowEditUserModal] = useState(false);
+  const [userToEdit, setUserToEdit] = useState(null);
+  
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -88,6 +96,40 @@ const Dashboard = () => {
     }
   };
 
+  // Add this function for updating users
+  const handleUpdateUser = async (userData) => {
+    console.log("handleUpdateUser called with:", userData);
+    setLoading(true);
+
+    try {
+      const token = localStorage.getItem("token");
+      const response = await fetch(`http://localhost:5000/api/users/${userToEdit._id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(userData),
+      });
+
+      if (response.ok) {
+        console.log("User updated successfully");
+        setShowEditUserModal(false);
+        setUserToEdit(null);
+        fetchUsers(); // Refresh the list
+      } else {
+        const errorData = await response.json();
+        console.error("Failed to update user:", errorData);
+        alert(errorData.error || "Failed to update user");
+      }
+    } catch (error) {
+      console.error("Error updating user:", error);
+      alert("Network error. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const handleUpdateProfile = async (e) => {
     e.preventDefault();
     try {
@@ -120,18 +162,56 @@ const Dashboard = () => {
     setActiveFilters(filters);
   };
 
-  // Clear all filters
+  // Handle viewing user details
+  const handleViewUserDetails = (userItem) => {
+    setSelectedUser(userItem);
+    setShowUserDetail(true);
+  };
 
+  // Handle edit user - updated to open edit modal
+  const handleEditUser = (userItem) => {
+    console.log("Edit user:", userItem);
+    setUserToEdit(userItem);
+    setShowUserDetail(false);
+    setShowEditUserModal(true);
+  };
+
+  // Handle delete user
+  const handleDeleteUser = async (userItem) => {
+    if (window.confirm(`Are you sure you want to delete ${userItem.name}?`)) {
+      try {
+        const token = localStorage.getItem("token");
+        const response = await fetch(`http://localhost:5000/api/users/${userItem._id}`, {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (response.ok) {
+          console.log("User deleted successfully");
+          setShowUserDetail(false);
+          fetchUsers(); // Refresh the user list
+        } else {
+          const errorData = await response.json();
+          alert(errorData.error || "Failed to delete user");
+        }
+      } catch (error) {
+        console.error("Error deleting user:", error);
+        alert("Network error. Please try again.");
+      }
+    }
+  };
 
   // Extract unique districts from users for the dropdown - using root level district
   const districts = [...new Set(users
-    .filter(user => user.district && user.role === "user") // Use root level district
+    .filter(user => user.district && user.role === "user")
     .map(user => user.district)
   )].sort();
 
   // Extract unique states from users for the dropdown - using root level state
   const states = [...new Set(users
-    .filter(user => user.state && user.role === "user") // Use root level state
+    .filter(user => user.state && user.role === "user")
     .map(user => user.state)
   )].sort();
 
@@ -141,14 +221,14 @@ const Dashboard = () => {
       userItem.role === "user" && (
         userItem.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
         userItem.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        (userItem.phone && userItem.phone.includes(searchTerm))
+        (userItem.phone && userItem.phone.toLowerCase().includes(searchTerm.toLowerCase())) ||
+        (userItem.district && userItem.district.toLowerCase().includes(searchTerm.toLowerCase())) ||
+        (userItem.state && userItem.state.toLowerCase().includes(searchTerm.toLowerCase()))
       ) && (
-        // Apply district filter - using root level district
         (!activeFilters.district || 
          (userItem.district && 
           userItem.district.toLowerCase().includes(activeFilters.district.toLowerCase())))
       ) && (
-        // Apply state filter - using root level state
         (!activeFilters.state || 
          (userItem.state && 
           userItem.state.toLowerCase().includes(activeFilters.state.toLowerCase())))
@@ -213,12 +293,8 @@ const Dashboard = () => {
                 </div>
               </div>
 
-              
-
               {/* Users List */}
               <div className="users-list">
-                
-
                 <div className="users-list-body">
                   {filteredUsers.map((userItem) => (
                     <div key={userItem._id} className="user-row">
@@ -236,7 +312,10 @@ const Dashboard = () => {
                       </span>
                       
                       <span className="user-actions">
-                        <button className="arrow-button">
+                        <button 
+                          className="arrow-button"
+                          onClick={() => handleViewUserDetails(userItem)}
+                        >
                           <img 
                             src={arrowIcon} 
                             alt="View details" 
@@ -257,12 +336,10 @@ const Dashboard = () => {
                   )}
                 </div>
               </div>
-
-              
             </>
           ) : (
             <>
-              {/* Regular user view remains the same */}
+              {/* Regular user view */}
               <div className="user-welcome">
                 <h2>Welcome, {user?.name}!</h2>
                 <p>You are logged in as a regular user.</p>
@@ -278,12 +355,35 @@ const Dashboard = () => {
         </div>
       </main>
 
-      {/* UserForm Component */}
+      {/* UserForm Component for Creating Users */}
       {showAddUserModal && isAdmin && (
         <UserForm
           onClose={() => setShowAddUserModal(false)}
           onUserCreated={handleAddUser}
           loading={loading}
+        />
+      )}
+
+      {/* UserForm Component for Editing Users */}
+      {showEditUserModal && isAdmin && (
+        <UserForm
+          onClose={() => {
+            setShowEditUserModal(false);
+            setUserToEdit(null);
+          }}
+          onUserCreated={handleUpdateUser}
+          loading={loading}
+          userToEdit={userToEdit}
+        />
+      )}
+
+      {/* UserDetail Component */}
+      {showUserDetail && isAdmin && (
+        <UserDetail
+          user={selectedUser}
+          onClose={() => setShowUserDetail(false)}
+          onEdit={handleEditUser}
+          onDelete={handleDeleteUser}
         />
       )}
 

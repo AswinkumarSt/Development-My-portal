@@ -1,19 +1,21 @@
 import { useState } from "react";
 import "./UserForm.css";
 
-const UserForm = ({ onClose, onUserCreated, loading }) => {
+const UserForm = ({ onClose, onUserCreated, loading, userToEdit }) => {
+  const isEditMode = !!userToEdit;
+  
   const [newUser, setNewUser] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    role: "user",
-    houseName: "",
-    poNumber: "",
-    landmarks: "",
-    locality: "",
-    town: "",
-    district: "", // Add district here
-    state: "", // Add state here
+    name: userToEdit?.name || "",
+    email: userToEdit?.email || "",
+    phone: userToEdit?.phone || "",
+    role: userToEdit?.role || "user",
+    houseName: userToEdit?.address?.houseName || "",
+    poNumber: userToEdit?.address?.poNumber || "",
+    landmarks: userToEdit?.address?.landmarks || "",
+    locality: userToEdit?.address?.locality || "",
+    town: userToEdit?.address?.town || "",
+    district: userToEdit?.district || userToEdit?.address?.district || "",
+    state: userToEdit?.state || userToEdit?.address?.state || "",
   });
 
   const handleSubmit = (e) => {
@@ -23,22 +25,26 @@ const UserForm = ({ onClose, onUserCreated, loading }) => {
       name: newUser.name,
       email: newUser.email,
       phone: newUser.phone,
-      password: "defaultPassword123",
       role: "user",
-      district: newUser.district, // Include district at root level
-      state: newUser.state, // Include state at root level
+      district: newUser.district,
+      state: newUser.state,
       address: {
         houseName: newUser.houseName,
         poNumber: newUser.poNumber,
         landmarks: newUser.landmarks,
         locality: newUser.locality,
         town: newUser.town,
-        district: newUser.district, // Also keep in address for backward compatibility
-        state: newUser.state, // Also keep in address for backward compatibility
+        district: newUser.district,
+        state: newUser.state,
       },
     };
 
-    console.log("Creating user with district:", userData.district, "and state:", userData.state);
+    // Only include password for new users, not for edits
+    if (!isEditMode) {
+      userData.password = "defaultPassword123";
+    }
+
+    console.log(`${isEditMode ? "Updating" : "Creating"} user with:`, userData);
     onUserCreated(userData);
   };
 
@@ -60,8 +66,8 @@ const UserForm = ({ onClose, onUserCreated, loading }) => {
       landmarks: "",
       locality: "",
       town: "",
-      district: "", // Reset district
-      state: "", // Reset state
+      district: "",
+      state: "",
     });
   };
 
@@ -69,7 +75,7 @@ const UserForm = ({ onClose, onUserCreated, loading }) => {
     <div className="user-form-modal-overlay">
       <div className="user-form-modal">
         <div className="user-form-modal-header">
-          <h3>Create User</h3>
+          <h3>{isEditMode ? "Edit User" : "Create User"}</h3>
           <button className="user-form-close-button" onClick={onClose}>
             ×
           </button>
@@ -243,7 +249,7 @@ const UserForm = ({ onClose, onUserCreated, loading }) => {
               className="user-form-save-button"
               disabled={loading}
             >
-              {loading ? "Creating..." : "Create User"}
+              {loading ? (isEditMode ? "Updating..." : "Creating...") : (isEditMode ? "Update User" : "Create User")}
             </button>
           </div>
         </form>
