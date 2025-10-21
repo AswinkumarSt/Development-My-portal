@@ -121,9 +121,7 @@ const Dashboard = () => {
   };
 
   // Clear all filters
-  const handleClearFilters = () => {
-    setActiveFilters({ district: "", state: "" });
-  };
+
 
   // Extract unique districts from users for the dropdown - using root level district
   const districts = [...new Set(users
