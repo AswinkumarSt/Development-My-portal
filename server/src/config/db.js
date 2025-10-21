@@ -1,16 +1,29 @@
 const mongoose = require("mongoose");
 
-const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost:27017/My-portal";
+const MONGODB_URI = process.env.MONGODB_URI;
 
-console.log("🔗 Attempting MongoDB connection...");
-console.log("📡 MONGODB_URI:", MONGODB_URI ? "Set" : "Not set");
+const connectDB = async () => {
+  try {
+    console.log("🔗 Attempting MongoDB connection...");
+    
+    // Increase timeout and add better options for production
+    await mongoose.connect(MONGODB_URI, {
+      serverSelectionTimeoutMS: 30000, // 30 seconds
+      socketTimeoutMS: 45000, // 45 seconds
+      maxPoolSize: 10,
+    });
+    
+    console.log("✅ Connected to MongoDB successfully");
+  } catch (error) {
+    console.log("❌ MongoDB connection error:", error.message);
+    console.log("🔍 Connection URI:", MONGODB_URI ? "Set" : "Not set");
+    process.exit(1);
+  }
+};
 
-// Connect to MongoDB (remove deprecated options)
-mongoose.connect(MONGODB_URI);
-
-// Connection events
+// Handle connection events
 mongoose.connection.on("connected", () => {
-  console.log("✅ Connected to MongoDB successfully");
+  console.log("✅ MongoDB connected");
 });
 
 mongoose.connection.on("error", (err) => {
@@ -21,4 +34,4 @@ mongoose.connection.on("disconnected", () => {
   console.log("🔌 MongoDB disconnected");
 });
 
-module.exports = mongoose;
+module.exports = connectDB;

@@ -35,14 +35,14 @@ const Login = () => {
       console.log("🔐 [DEBUG] Login attempt started");
       console.log("📧 [DEBUG] Email:", formData.email);
       console.log("🔑 [DEBUG] Password length:", formData.password.length);
-      console.log("📡 [DEBUG] Sending request to: http://localhost:5000/api/auth/login");
+      console.log("📡 [DEBUG] Sending request to: https://development-my-portal.onrender.com/api/auth/login");
 
       const requestBody = JSON.stringify(formData);
       console.log("📦 [DEBUG] Request body:", requestBody);
 
       const startTime = Date.now();
       
-      const response = await fetch("http://localhost:5000/api/auth/login", {
+      const response = await fetch("https://development-my-portal.onrender.com/api/auth/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

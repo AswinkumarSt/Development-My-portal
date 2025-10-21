@@ -49,7 +49,7 @@ const Dashboard = () => {
   const fetchUsers = async () => {
     try {
       const token = localStorage.getItem("token");
-      const response = await fetch("http://localhost:5000/api/users", {
+      const response = await fetch("https://development-my-portal.onrender.com/api/users", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -70,7 +70,7 @@ const Dashboard = () => {
 
     try {
       const token = localStorage.getItem("token");
-      const response = await fetch("http://localhost:5000/api/users", {
+      const response = await fetch("http://https://development-my-portal.onrender.com/api/users", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -103,7 +103,7 @@ const Dashboard = () => {
 
     try {
       const token = localStorage.getItem("token");
-      const response = await fetch(`http://localhost:5000/api/users/${userToEdit._id}`, {
+      const response = await fetch(`https://development-my-portal.onrender.com/api/users/${userToEdit._id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -135,7 +135,7 @@ const Dashboard = () => {
     try {
       const token = localStorage.getItem("token");
       const response = await fetch(
-        "http://localhost:5000/api/users/profile/me",
+        "https://development-my-portal.onrender.com/api/users/profile/me",
         {
           method: "PUT",
           headers: {
@@ -181,7 +181,7 @@ const Dashboard = () => {
     if (window.confirm(`Are you sure you want to delete ${userItem.name}?`)) {
       try {
         const token = localStorage.getItem("token");
-        const response = await fetch(`http://localhost:5000/api/users/${userItem._id}`, {
+        const response = await fetch(`https://development-my-portal.onrender.com/api/users/${userItem._id}`, {
           method: "DELETE",
           headers: {
             Authorization: `Bearer ${token}`,
