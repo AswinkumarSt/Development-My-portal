@@ -31,6 +31,9 @@ const Dashboard = () => {
   
   const navigate = useNavigate();
 
+  // API base URL for all requests
+  const API_BASE_URL = "https://development-my-portal.onrender.com/api";
+
   useEffect(() => {
     const userData = localStorage.getItem("user");
     if (userData) {
@@ -49,7 +52,7 @@ const Dashboard = () => {
   const fetchUsers = async () => {
     try {
       const token = localStorage.getItem("token");
-      const response = await fetch("https://development-my-portal.onrender.com/api/users", {
+      const response = await fetch(`${API_BASE_URL}/users`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -70,7 +73,7 @@ const Dashboard = () => {
 
     try {
       const token = localStorage.getItem("token");
-      const response = await fetch("http://https://development-my-portal.onrender.com/api/users", {
+      const response = await fetch(`${API_BASE_URL}/users`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -103,7 +106,7 @@ const Dashboard = () => {
 
     try {
       const token = localStorage.getItem("token");
-      const response = await fetch(`https://development-my-portal.onrender.com/api/users/${userToEdit._id}`, {
+      const response = await fetch(`${API_BASE_URL}/users/${userToEdit._id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -135,7 +138,7 @@ const Dashboard = () => {
     try {
       const token = localStorage.getItem("token");
       const response = await fetch(
-        "https://development-my-portal.onrender.com/api/users/profile/me",
+        `${API_BASE_URL}/users/profile/me`,
         {
           method: "PUT",
           headers: {
@@ -181,7 +184,7 @@ const Dashboard = () => {
     if (window.confirm(`Are you sure you want to delete ${userItem.name}?`)) {
       try {
         const token = localStorage.getItem("token");
-        const response = await fetch(`https://development-my-portal.onrender.com/api/users/${userItem._id}`, {
+        const response = await fetch(`${API_BASE_URL}/users/${userItem._id}`, {
           method: "DELETE",
           headers: {
             Authorization: `Bearer ${token}`,

@@ -15,6 +15,9 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
+  // API base URL
+  const API_BASE_URL = "https://development-my-portal.onrender.com/api";
+
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -32,60 +35,29 @@ const Login = () => {
     setError("");
 
     try {
-      console.log("🔐 [DEBUG] Login attempt started");
-      console.log("📧 [DEBUG] Email:", formData.email);
-      console.log("🔑 [DEBUG] Password length:", formData.password.length);
-      console.log("📡 [DEBUG] Sending request to: https://development-my-portal.onrender.com/api/auth/login");
-
-      const requestBody = JSON.stringify(formData);
-      console.log("📦 [DEBUG] Request body:", requestBody);
-
-      const startTime = Date.now();
-      
-      const response = await fetch("https://development-my-portal.onrender.com/api/auth/login", {
+      const response = await fetch(`${API_BASE_URL}/auth/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: requestBody,
+        body: JSON.stringify(formData),
       });
 
-      const endTime = Date.now();
-      console.log("⏱️ [DEBUG] Request took:", endTime - startTime, "ms");
-      console.log("📡 [DEBUG] Response status:", response.status);
-      console.log("📡 [DEBUG] Response ok:", response.ok);
-      console.log("📡 [DEBUG] Response headers:", Object.fromEntries(response.headers.entries()));
-
       const data = await response.json();
-      console.log("📡 [DEBUG] Response data:", data);
 
       if (response.ok) {
-        console.log("✅ [DEBUG] Login successful!");
-        console.log("✅ [DEBUG] Token received:", data.token ? "Yes" : "No");
-        console.log("✅ [DEBUG] User data:", data.user);
-
         // Save token to localStorage
         localStorage.setItem("token", data.token);
         localStorage.setItem("user", JSON.stringify(data.user));
-        
-        console.log("✅ [DEBUG] Data saved to localStorage");
-        console.log("🔄 [DEBUG] Redirecting to dashboard...");
 
         // Redirect to dashboard
         navigate("/dashboard");
       } else {
-        console.log("❌ [DEBUG] Login failed with error:", data.error);
         setError(data.error || "Login failed");
       }
     } catch (error) {
-      console.error("💥 [DEBUG] Network error details:", error);
-      console.error("💥 [DEBUG] Error name:", error.name);
-      console.error("💥 [DEBUG] Error message:", error.message);
-      console.error("💥 [DEBUG] Error stack:", error.stack);
-      
-      setError("Network error. Please try again. Check console for details.");
+      setError("Network error. Please try again.");
     } finally {
-      console.log("🏁 [DEBUG] Login attempt finished");
       setLoading(false);
     }
   };
@@ -115,6 +87,7 @@ const Login = () => {
                 onChange={handleChange}
                 placeholder="Enter your username"
                 required
+                autoComplete="email"
               />
             </div>
 
@@ -129,6 +102,7 @@ const Login = () => {
                   onChange={handleChange}
                   placeholder="Enter password"
                   required
+                  autoComplete="current-password"
                 />
                 <span 
                   className="password-toggle" 
