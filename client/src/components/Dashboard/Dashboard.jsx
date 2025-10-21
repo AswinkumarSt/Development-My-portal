@@ -68,36 +68,45 @@ const Dashboard = () => {
   };
 
   const handleAddUser = async (userData) => {
-    console.log("handleAddUser called with:", userData);
-    setLoading(true);
+  console.log("handleAddUser called with:", userData);
+  setLoading(true);
 
-    try {
-      const token = localStorage.getItem("token");
-      const response = await fetch(`${API_BASE_URL}/users`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(userData),
-      });
+  try {
+    const token = localStorage.getItem("token");
+    
+    // TEMPORARY DEBUG - Check the exact URL
+    const requestUrl = `${API_BASE_URL}/users`;
+    console.log("🔗 [DEBUG] Making POST request to:", requestUrl);
+    console.log("🔗 [DEBUG] Full URL:", requestUrl);
+    
+    const response = await fetch(requestUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(userData),
+    });
 
-      if (response.ok) {
-        console.log("User created successfully");
-        setShowAddUserModal(false);
-        fetchUsers();
-      } else {
-        const errorData = await response.json();
-        console.error("Failed to create user:", errorData);
-        alert(errorData.error || "Failed to create user");
-      }
-    } catch (error) {
-      console.error("Error adding user:", error);
-      alert("Network error. Please try again.");
-    } finally {
-      setLoading(false);
+    console.log("📡 [DEBUG] Response status:", response.status);
+    
+    if (response.ok) {
+      console.log("User created successfully");
+      setShowAddUserModal(false);
+      fetchUsers();
+    } else {
+      const errorData = await response.json();
+      console.error("Failed to create user:", errorData);
+      alert(errorData.error || "Failed to create user");
     }
-  };
+  } catch (error) {
+    console.error("Error adding user:", error);
+    console.error("Error details:", error.message);
+    alert("Network error. Please try again.");
+  } finally {
+    setLoading(false);
+  }
+};
 
   // Add this function for updating users
   const handleUpdateUser = async (userData) => {
