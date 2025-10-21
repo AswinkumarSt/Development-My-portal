@@ -1,0 +1,272 @@
+.login-wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column; /* stack content and footer vertically */
+  background: white;
+  padding: 0px;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Background Image Styles - FIXED CENTERING */
+.background-image-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+
+.background-image {
+  background-image: url("../../assets/login.png");
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 1;
+  width: 1155px;
+  height: 616px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* Remove the placeholder styles since we're using actual image */
+.image-placeholder {
+  display: none;
+}
+
+.placeholder-content {
+  display: none;
+}
+
+/* Login Container */
+.login-container {
+  background: transparent; /* Remove background completely */
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: none; /* Remove shadow since there's no background */
+  width: 100%;
+  max-width: 600px;
+  border: none; /* Remove border */
+  backdrop-filter: none; /* Remove blur effect */
+  position: relative;
+  z-index: 1;
+  margin: 0 auto;
+}
+
+/* Make a main content area that grows so footer stays at bottom */
+.login-wrapper > .login-container {
+  flex: 0 0 auto; /* content keeps its size */
+}
+
+/* If you want content to expand and center vertically, wrap the content and set flex: 1 */
+.login-main {
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.login-header {
+  text-align: left;
+  margin-bottom: 30px;
+}
+
+.login-header h1 {
+  color: #06b6d4;
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin: 0;
+  background-clip: text;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  align-self: flex-start;
+  font-weight: normal;
+  color: #333;
+  margin-bottom: 8px;
+  font-size: 0.9rem;
+
+  letter-spacing: 0.5px;
+}
+
+.form-group input {
+  padding: 12px 16px;
+  border: 2px solid #ffff;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  background: #ffff;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #667eea;
+  background: white;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.form-group input::placeholder {
+  color: #9a9a9a;
+}
+
+.login-button {
+  padding: 14px 20px;
+  background-color: #06b6d4;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.login-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+}
+
+.login-button:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.login-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.error-message {
+  background: #fee;
+  color: #c33;
+  padding: 12px;
+  border-radius: 6px;
+  border: 1px solid #fcc;
+  text-align: center;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+/* Responsive design */
+@media (max-width: 1200px) {
+  .background-image {
+    width: 900px;
+    height: 480px;
+  }
+}
+
+@media (max-width: 768px) {
+  .background-image {
+    width: 100%;
+    height: auto;
+    max-width: 90%;
+    max-height: 50%;
+    opacity: 0.5;
+  }
+
+  .login-container {
+    padding: 30px 20px;
+    margin: 10px;
+    background: rgba(255, 255, 255, 0.98);
+  }
+
+  .login-header h1 {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .login-wrapper {
+    padding: 10px;
+  }
+
+  .login-container {
+    padding: 25px 15px;
+  }
+
+  .background-image {
+    opacity: 0.4;
+  }
+}
+/* Password Input Wrapper */
+.password-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.password-group input {
+  padding-right: 40px;
+  width: 100%;
+}
+
+/* SVG Icon Styling */
+.password-toggle {
+  position: absolute;
+  right: 12px;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 3px;
+  transition: all 0.2s ease;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+}
+
+.password-toggle:hover {
+  background: rgba(6, 182, 212, 0.1);
+  transform: scale(1.1);
+}
+
+.password-toggle:active {
+  transform: scale(0.95);
+}
+
+/* Style for inline SVGs */
+.password-toggle svg {
+  color: #666; /* Icon color */
+  transition: color 0.2s ease;
+}
+
+.password-toggle:hover svg {
+  color: #06b6d4; /* Your brand color on hover */
+}
+
+/* Style for img tags if using external SVGs */
+.password-toggle img {
+  width: 16px;
+  height: 16px;
+  filter: brightness(0.7);
+  transition: filter 0.2s ease;
+}
+
+.password-toggle:hover img {
+  filter: brightness(0.4);
+}
