@@ -13,7 +13,7 @@ const PORT = process.env.PORT || 5000;
 app.use(cors({
   origin: [
     "http://localhost:3000",
-    "https://warm-custard-b685a6.netlify.app",
+    "https://eloquent-froyo-07dd4f.netlify.app",
     "https://*.netlify.app"
   ],
   credentials: true
