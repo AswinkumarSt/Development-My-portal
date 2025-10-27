@@ -12,6 +12,7 @@
   z-index: 2000;
   padding: 20px;
   backdrop-filter: blur(4px);
+  box-sizing: border-box; /* Added */
 }
 
 .user-form-modal {
@@ -23,6 +24,11 @@
   overflow-y: auto;
   box-shadow: 0 25px 60px rgba(0, 0, 0, 0.3);
   animation: userFormSlideIn 0.3s ease-out;
+  margin: 0 auto; /* Added for centering */
+  box-sizing: border-box; /* Added */
+  position: relative; /* Added */
+  left: 0; /* Added */
+  right: 0; /* Added */
 }
 
 @keyframes userFormSlideIn {
@@ -46,6 +52,8 @@
   background: white;
   z-index: 10;
   border-radius: 16px 16px 0 0;
+  width: 100%; /* Added */
+  box-sizing: border-box; /* Added */
 }
 
 .user-form-modal-header h3 {
@@ -54,6 +62,7 @@
   font-size: 1.5rem;
   font-weight: 700;
   text-align: center;
+  width: 100%; /* Added */
 }
 
 .user-form-close-button {
@@ -83,10 +92,13 @@
 
 .user-form-modal-form {
   padding: 2rem;
+  width: 100%; /* Added */
+  box-sizing: border-box; /* Added */
 }
 
 .user-form-section {
   margin-bottom: 2.5rem;
+  width: 100%; /* Added */
 }
 
 .user-form-section:last-of-type {
@@ -98,12 +110,14 @@
   color: #333;
   font-size: 1.25rem;
   font-weight: 600;
+  width: 100%; /* Added */
 }
 
 .user-form-row {
   display: flex;
   gap: 1rem;
   margin-bottom: 1rem;
+  width: 100%; /* Added */
 }
 
 .user-form-row:last-child {
@@ -114,6 +128,7 @@
   flex: 1;
   display: flex;
   flex-direction: column;
+  width: 100%; /* Added */
 }
 
 .user-form-group.full-width {
@@ -126,6 +141,7 @@
   font-weight: 600;
   color: #333;
   font-size: 0.95rem;
+  width: 100%; /* Added */
 }
 
 .user-form-group input,
@@ -172,6 +188,8 @@
   background: white;
   z-index: 5;
   padding-top: 1rem;
+  width: 100%; /* Added */
+  box-sizing: border-box; /* Added */
 }
 
 .user-form-cancel-button,
@@ -184,6 +202,7 @@
   transition: all 0.3s ease;
   min-width: 120px;
   font-size: 1rem;
+  box-sizing: border-box; /* Added */
 }
 
 .user-form-cancel-button {
@@ -222,6 +241,9 @@
 @media (max-width: 1024px) {
   .user-form-modal {
     max-width: 95%;
+    margin: 0 auto; /* Maintain centering */
+    left: 0; /* Added */
+    right: 0; /* Added */
   }
   
   .user-form-row {
@@ -240,6 +262,9 @@
     border-radius: 20px 20px 0 0;
     max-width: 100%;
     animation: userFormSlideUp 0.3s ease-out;
+    margin: 0 auto; /* Maintain centering */
+    left: 0; /* Added */
+    right: 0; /* Added */
   }
   
   @keyframes userFormSlideUp {
@@ -328,6 +353,9 @@
     border-radius: 0;
     max-height: 100vh;
     height: 100vh;
+    margin: 0 auto; /* Maintain centering */
+    left: 0; /* Added */
+    right: 0; /* Added */
   }
   
   .user-form-modal-header {
@@ -374,6 +402,9 @@
     border-radius: 16px;
     max-height: 95vh;
     max-width: 95%;
+    margin: 0 auto; /* Maintain centering */
+    left: 0; /* Added */
+    right: 0; /* Added */
   }
   
   .user-form-modal-form {
@@ -398,3 +429,13 @@
   outline: 2px solid #06b6d4;
   outline-offset: 2px;
 }
+
+/* DEBUG: Uncomment to check container boundaries */
+/*
+.user-form-modal {
+  border: 2px solid red;
+}
+.user-form-modal-overlay {
+  border: 2px solid blue;
+}
+*/
