@@ -2,10 +2,44 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  width: 100%;
 }
 
+/* Main content area that will contain your pages */
+.app-content {
+  flex: 1;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
 
+/* Ensure all child components take full width */
+.App > * {
+  width: 100%;
+}
 
+/* Responsive container for pages */
+.page-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+/* Mobile-first responsive breakpoints */
+@media (max-width: 768px) {
+  .page-container {
+    padding: 0 0.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .page-container {
+    padding: 0 0.25rem;
+  }
+}
+
+/* Keep your existing styles below - they won't affect functionality */
 .App-logo {
   height: 40vmin;
   pointer-events: none;

@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./navbar.css";
-import groupIcon from '/Myportal/client/src/assets/Group.png'; // Import the group icon
+import groupIcon from '/Myportal/client/src/assets/Group.png';
 
 const Navbar = ({ user }) => {
   const [showDropdown, setShowDropdown] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -19,9 +20,19 @@ const Navbar = ({ user }) => {
         <h1 className="navbar-brand">MyPortal</h1>
       </div>
 
-      <div className="navbar-right">
+      {/* Mobile Menu Button */}
+      <button 
+        className="mobile-menu-toggle"
+        onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+        aria-label="Toggle menu"
+      >
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <div className={`navbar-right ${isMobileMenuOpen ? 'mobile-open' : ''}`}>
         <div className="profile-section">
-          {/* Profile icon moved before the email */}
           <div
             className="profile-icon"
             onClick={() => setShowDropdown(!showDropdown)}
@@ -36,7 +47,6 @@ const Navbar = ({ user }) => {
 
           {showDropdown && (
             <div className="dropdown-menu">
-              
               <div className="dropdown-item" onClick={handleLogout}>
                 Logout
               </div>

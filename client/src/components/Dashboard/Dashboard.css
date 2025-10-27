@@ -25,7 +25,6 @@
 }
 
 .background-image {
-  
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
@@ -56,8 +55,9 @@
   width: 100%;
   max-width: 1200px;
   max-height: 900px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  
   border: 1px solid rgba(255, 255, 255, 0.2);
+  overflow-y: auto;
 }
 
 /* Address Book Header - Centered layout */
@@ -96,7 +96,6 @@
 .search-bar {
   position: relative;
   display: flex;
-  
   align-items: center;
   flex: 1;
   max-width: 1100px;
@@ -115,7 +114,7 @@
 .search-input:focus {
   outline: none;
   border-color: #06b6d4;
-  box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.1);
+  
 }
 
 .search-icon {
@@ -166,12 +165,13 @@
   background: #06b6d4;
   color: white;
   flex-shrink: 0;
+  white-space: nowrap;
 }
 
 .add-address-button:hover {
   background: #0891b2;
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(6, 182, 212, 0.3);
+ 
 }
 
 /* Users List with individual card borders */
@@ -211,13 +211,13 @@
   border: 1px solid #e1e5e9;
   border-radius: 8px;
   background: white;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  
 }
 
 .user-row:hover {
   background: #f8f9fa;
   border-color: #06b6d4;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+ 
   transform: translateY(-1px);
 }
 
@@ -310,7 +310,7 @@
 .edit-profile-button:hover {
   background: #0891b2;
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(6, 182, 212, 0.3);
+
 }
 
 .profile-info {
@@ -381,7 +381,7 @@
   max-width: 500px;
   max-height: 90vh;
   overflow-y: auto;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  
 }
 
 .modal-header {
@@ -442,7 +442,7 @@
 .modal-form select:focus {
   outline: none;
   border-color: #06b6d4;
-  box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.1);
+
 }
 
 .modal-actions {
@@ -485,44 +485,134 @@
   cursor: not-allowed;
 }
 
-/* Responsive Design */
+/* Regular User Welcome Section */
+.user-welcome {
+  text-align: center;
+  padding: 2rem;
+}
+
+.user-welcome h2 {
+  color: #06b6d4;
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.user-welcome p {
+  color: #666;
+  margin-bottom: 2rem;
+  font-size: 1.1rem;
+}
+
+.edit-profile-btn {
+  padding: 0.75rem 1.5rem;
+  background: #06b6d4;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 1rem;
+}
+
+.edit-profile-btn:hover {
+  background: #0891b2;
+  transform: translateY(-2px);
+ 
+}
+
+/* Enhanced Responsive Design */
+@media (max-width: 1024px) {
+  .dashboard-container {
+    max-height: none;
+    padding: 1.5rem;
+  }
+  
+  .users-list-header,
+  .user-row {
+    grid-template-columns: 1.5fr 2fr 1.5fr 0.5fr;
+    gap: 0.75rem;
+  }
+}
+
 @media (max-width: 768px) {
   .dashboard-main {
     padding: 1rem;
   }
 
   .dashboard-container {
-    padding: 1.5rem;
+    padding: 1rem;
+    border-radius: 8px;
   }
 
-  .address-book-title {
-    flex-direction: column;
-    align-items: stretch;
+  .address-book-header {
     gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .address-book-title h2 {
+    font-size: 1.5rem;
   }
 
   .address-book-controls {
     flex-direction: column;
     gap: 1rem;
+    align-items: stretch;
   }
 
   .search-bar {
     max-width: 100%;
+    order: 1;
   }
 
-  .search-input {
+  .add-address-button {
+    order: 2;
     width: 100%;
+    text-align: center;
   }
 
-  .users-list-header,
+  .users-list-header {
+    display: none; /* Hide header on mobile */
+  }
+
   .user-row {
-    grid-template-columns: 1fr 1fr;
-    gap: 0.5rem;
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+    padding: 1rem;
+    text-align: left;
   }
 
-  .header-phone,
+  .user-name {
+    font-weight: 600;
+    font-size: 1.1rem;
+    border-bottom: 1px solid #f1f3f4;
+    padding-bottom: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .user-email,
   .user-phone {
-    display: none;
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+  }
+
+  .user-email::before {
+    content: "Email:";
+    font-weight: 600;
+    color: #333;
+  }
+
+  .user-phone::before {
+    content: "Phone:";
+    font-weight: 600;
+    color: #333;
+  }
+
+  .user-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 0.5rem;
   }
 
   .user-profile-header {
@@ -536,31 +626,86 @@
     align-items: flex-start;
     gap: 0.5rem;
   }
-}
 
-@media (max-width: 480px) {
-  .address-book-controls {
-    flex-direction: column;
-    gap: 0.5rem;
+  .modal {
+    width: 95%;
+    margin: 1rem;
   }
 
-  .search-input {
-    width: 100%;
+  .modal-header {
+    padding: 1rem 1.5rem;
   }
 
-  .users-list-header,
-  .user-row {
-    grid-template-columns: 1fr;
-    text-align: center;
+  .modal-form {
+    padding: 1.5rem;
+  }
+
+  .modal-actions {
+    flex-direction: column-reverse;
     gap: 0.75rem;
   }
 
-  .header-email,
-  .user-email {
-    display: none;
+  .cancel-button,
+  .save-button {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .dashboard-main {
+    padding: 0.5rem;
+  }
+
+  .dashboard-container {
+    padding: 0.75rem;
+  }
+
+  .address-book-title h2 {
+    font-size: 1.25rem;
+  }
+
+  .search-input {
+    padding: 0.75rem 1rem 0.75rem 2.5rem;
+    font-size: 0.9rem;
+  }
+
+  .user-row {
+    padding: 0.75rem;
   }
 
   .user-name {
-    justify-content: center;
+    font-size: 1rem;
+  }
+
+  .user-email,
+  .user-phone {
+    font-size: 0.85rem;
+  }
+
+  .background-image {
+    width: 100%;
+    height: auto;
+    max-width: 300px;
+  }
+
+  .user-welcome h2 {
+    font-size: 1.5rem;
+  }
+
+  .user-welcome p {
+    font-size: 1rem;
+  }
+}
+
+/* Landscape orientation for mobile */
+@media (max-width: 768px) and (orientation: landscape) {
+  .dashboard-container {
+    max-height: 80vh;
+    overflow-y: auto;
+  }
+  
+  .users-list-body {
+    max-height: 300px;
+    overflow-y: auto;
   }
 }

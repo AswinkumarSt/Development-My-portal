@@ -11,54 +11,69 @@
   justify-content: center;
   z-index: 2000;
   padding: 20px;
+  backdrop-filter: blur(4px);
 }
 
 .user-form-modal {
   background: white;
-  border-radius: 12px;
+  border-radius: 16px;
   width: 100%;
   max-width: 900px;
   max-height: 90vh;
   overflow-y: auto;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.3);
+  animation: userFormSlideIn 0.3s ease-out;
+}
+
+@keyframes userFormSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
 .user-form-modal-header {
   display: flex;
-  justify-content: center; /* Center the title */
+  justify-content: center;
   align-items: center;
   padding: 1.5rem 2rem;
   position: sticky;
   top: 0;
   background: white;
   z-index: 10;
-  border-radius: 12px 12px 0 0;
+  border-radius: 16px 16px 0 0;
 }
 
 .user-form-modal-header h3 {
   margin: 0;
   color: #06b6d4;
   font-size: 1.5rem;
-  font-weight: 700; /* Keep bold for title only */
-  text-align: center; /* Center text */
+  font-weight: 700;
+  text-align: center;
 }
 
 .user-form-close-button {
   background: none;
   border: none;
-  font-size: 1.5rem;
+  font-size: 1.75rem;
   cursor: pointer;
   color: #666;
-  padding: 0.25rem;
-  border-radius: 4px;
+  padding: 0.5rem;
+  border-radius: 50%;
   transition: all 0.2s ease;
-  width: 32px;
-  height: 32px;
+  width: 40px;
+  height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
-  position: absolute; /* Position close button absolutely */
-  right: 2rem; /* Position from right */
+  position: absolute;
+  right: 1.5rem;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
 .user-form-close-button:hover {
@@ -71,7 +86,7 @@
 }
 
 .user-form-section {
-  margin-bottom: 2rem;
+  margin-bottom: 2.5rem;
 }
 
 .user-form-section:last-of-type {
@@ -79,16 +94,20 @@
 }
 
 .user-form-section-title {
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
   color: #333;
-  font-size: 1.1rem;
-  font-weight: 500; /* Lighter font weight like placeholder text */
+  font-size: 1.25rem;
+  font-weight: 600;
 }
 
 .user-form-row {
   display: flex;
   gap: 1rem;
   margin-bottom: 1rem;
+}
+
+.user-form-row:last-child {
+  margin-bottom: 0;
 }
 
 .user-form-group {
@@ -103,27 +122,36 @@
 
 .user-form-group label {
   display: block;
-  margin-bottom: 0.5rem;
-  font-weight: 500; /* Lighter font weight like placeholder text */
+  margin-bottom: 0.75rem;
+  font-weight: 600;
   color: #333;
-  font-size: 0.9rem;
+  font-size: 0.95rem;
 }
 
 .user-form-group input,
 .user-form-group select {
   width: 100%;
-  padding: 0.75rem;
-  border: 1px solid #e1e5e9;
-  border-radius: 6px;
+  padding: 0.875rem 1rem;
+  border: 2px solid #e1e5e9;
+  border-radius: 8px;
   font-size: 1rem;
   transition: all 0.3s ease;
   box-sizing: border-box;
-  height: 44px;
-  font-weight: 400; /* Normal font weight for input text */
+  height: 48px;
+  font-weight: 400;
+  background-color: white;
+}
+
+.user-form-group select {
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=US-ASCII,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'><path fill='%23666' d='M2 0L0 2h4zm0 5L0 3h4z'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  background-size: 12px;
 }
 
 .user-form-group input::placeholder {
-  font-weight: 400; /* Normal font weight for placeholder text */
+  font-weight: 400;
   color: #999;
 }
 
@@ -131,7 +159,7 @@
 .user-form-group select:focus {
   outline: none;
   border-color: #06b6d4;
-  box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.1);
+  box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.15);
 }
 
 .user-form-modal-actions {
@@ -139,79 +167,234 @@
   gap: 1rem;
   justify-content: flex-end;
   margin-top: 2rem;
-  padding-top: 1.5rem;
+  position: sticky;
+  bottom: 0;
+  background: white;
+  z-index: 5;
+  padding-top: 1rem;
 }
 
 .user-form-cancel-button,
 .user-form-save-button {
-  padding: 0.75rem 1.5rem;
+  padding: 0.875rem 1.75rem;
   border: none;
-  border-radius: 6px;
-  font-weight: 500; /* Lighter font weight like other text */
+  border-radius: 8px;
+  font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
-  min-width: 100px;
+  min-width: 120px;
+  font-size: 1rem;
 }
 
 .user-form-cancel-button {
   background: #f8f9fa;
   color: #333;
-  border: 1px solid #e1e5e9;
+  border: 2px solid #e1e5e9;
 }
 
-.user-form-cancel-button:hover {
+.user-form-cancel-button:hover:not(:disabled) {
   background: #e9ecef;
+  border-color: #ced4da;
+  transform: translateY(-1px);
 }
 
 .user-form-save-button {
   background: #06b6d4;
   color: white;
+  border: 2px solid #06b6d4;
 }
 
 .user-form-save-button:hover:not(:disabled) {
   background: #0891b2;
+  border-color: #0891b2;
   transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(6, 182, 212, 0.3);
 }
 
-.user-form-save-button:disabled {
+.user-form-save-button:disabled,
+.user-form-cancel-button:disabled {
   opacity: 0.6;
   cursor: not-allowed;
   transform: none;
 }
 
-/* Responsive Design for UserForm */
+/* Enhanced Responsive Design */
+@media (max-width: 1024px) {
+  .user-form-modal {
+    max-width: 95%;
+  }
+  
+  .user-form-row {
+    gap: 0.75rem;
+  }
+}
+
 @media (max-width: 768px) {
   .user-form-modal-overlay {
     padding: 10px;
+    align-items: flex-end;
   }
   
   .user-form-modal {
     max-height: 95vh;
+    border-radius: 20px 20px 0 0;
+    max-width: 100%;
+    animation: userFormSlideUp 0.3s ease-out;
+  }
+  
+  @keyframes userFormSlideUp {
+    from {
+      opacity: 0;
+      transform: translateY(100%);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
   
   .user-form-modal-header {
-    padding: 1rem 1.5rem;
+    padding: 1.25rem 1.5rem;
+    position: sticky;
+    top: 0;
+  }
+  
+  .user-form-modal-header h3 {
+    font-size: 1.25rem;
   }
   
   .user-form-close-button {
-    right: 1.5rem; /* Adjust close button position for mobile */
+    right: 1rem;
+    width: 36px;
+    height: 36px;
+    font-size: 1.5rem;
   }
   
   .user-form-modal-form {
     padding: 1.5rem;
   }
   
+  .user-form-section {
+    margin-bottom: 2rem;
+  }
+  
+  .user-form-section-title {
+    font-size: 1.1rem;
+    margin-bottom: 1.25rem;
+  }
+  
   .user-form-row {
     flex-direction: column;
     gap: 0.75rem;
+    margin-bottom: 0.75rem;
+  }
+  
+  .user-form-group {
+    margin-bottom: 0.5rem;
+  }
+  
+  .user-form-group label {
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .user-form-group input,
+  .user-form-group select {
+    padding: 0.75rem;
+    height: 44px;
+    font-size: 0.95rem;
   }
   
   .user-form-modal-actions {
-    flex-direction: column;
+    flex-direction: column-reverse;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
   }
   
   .user-form-cancel-button,
   .user-form-save-button {
     width: 100%;
+    min-width: auto;
+    padding: 0.875rem 1rem;
   }
+}
+
+@media (max-width: 480px) {
+  .user-form-modal-overlay {
+    padding: 0;
+  }
+  
+  .user-form-modal {
+    border-radius: 0;
+    max-height: 100vh;
+    height: 100vh;
+  }
+  
+  .user-form-modal-header {
+    padding: 1rem 1.25rem;
+  }
+  
+  .user-form-modal-header h3 {
+    font-size: 1.125rem;
+  }
+  
+  .user-form-modal-form {
+    padding: 1.25rem;
+    padding-bottom: 2rem;
+  }
+  
+  .user-form-section {
+    margin-bottom: 1.5rem;
+  }
+  
+  .user-form-section-title {
+    font-size: 1rem;
+  }
+  
+  .user-form-group input,
+  .user-form-group select {
+    height: 48px;
+  }
+  
+  .user-form-cancel-button,
+  .user-form-save-button {
+    padding: 1rem;
+    font-size: 1.05rem;
+  }
+}
+
+/* Landscape orientation for mobile */
+@media (max-width: 768px) and (orientation: landscape) {
+  .user-form-modal-overlay {
+    align-items: center;
+    padding: 10px;
+  }
+  
+  .user-form-modal {
+    border-radius: 16px;
+    max-height: 95vh;
+    max-width: 95%;
+  }
+  
+  .user-form-modal-form {
+    padding: 1.5rem;
+  }
+  
+  .user-form-modal-actions {
+    position: sticky;
+    bottom: 0;
+    background: white;
+    padding-top: 1rem;
+    margin-top: 1rem;
+  }
+}
+
+/* Focus styles for accessibility */
+.user-form-close-button:focus,
+.user-form-cancel-button:focus,
+.user-form-save-button:focus,
+.user-form-group input:focus,
+.user-form-group select:focus {
+  outline: 2px solid #06b6d4;
+  outline-offset: 2px;
 }
