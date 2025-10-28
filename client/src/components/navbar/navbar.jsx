@@ -33,6 +33,7 @@ const Navbar = ({ user }) => {
 
       <div className={`navbar-right ${isMobileMenuOpen ? 'mobile-open' : ''}`}>
         <div className="profile-section">
+          {/* Profile icon and email - visible on desktop */}
           <div
             className="profile-icon"
             onClick={() => setShowDropdown(!showDropdown)}
@@ -52,6 +53,13 @@ const Navbar = ({ user }) => {
               </div>
             </div>
           )}
+        </div>
+
+        {/* Mobile-only logout option */}
+        <div className="mobile-logout-option">
+          <button className="logout-button" onClick={handleLogout}>
+            Logout
+          </button>
         </div>
       </div>
     </nav>

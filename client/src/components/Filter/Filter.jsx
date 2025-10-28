@@ -7,6 +7,11 @@ const Filter = ({ onClose, onApplyFilter, districts = [], states = [] }) => {
     state: ""
   });
 
+  // Normalize districts to lowercase and remove duplicates
+  const normalizedDistricts = [...new Set(districts.map(district => 
+    district ? district.toLowerCase() : ''
+  ))].filter(district => district !== '').sort();
+
   const handleInputChange = (field, value) => {
     setFilters((prev) => ({
       ...prev,
@@ -15,7 +20,12 @@ const Filter = ({ onClose, onApplyFilter, districts = [], states = [] }) => {
   };
 
   const handleApply = () => {
-    onApplyFilter(filters);
+    // Apply filters with lowercase district for consistency
+    const normalizedFilters = {
+      district: filters.district.toLowerCase(),
+      state: filters.state
+    };
+    onApplyFilter(normalizedFilters);
     onClose();
   };
 
@@ -47,9 +57,9 @@ const Filter = ({ onClose, onApplyFilter, districts = [], states = [] }) => {
                 onChange={(e) => handleInputChange("district", e.target.value)}
               >
                 <option value="">All Districts</option>
-                {districts.map((district, index) => (
+                {normalizedDistricts.map((district, index) => (
                   <option key={index} value={district}>
-                    {district}
+                    {district.charAt(0).toUpperCase() + district.slice(1)}
                   </option>
                 ))}
               </select>

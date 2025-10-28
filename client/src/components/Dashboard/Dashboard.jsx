@@ -216,10 +216,10 @@ const Dashboard = () => {
   };
 
   // Extract unique districts from users for the dropdown - using root level district
-  const districts = [...new Set(users
-    .filter(user => user.district && user.role === "user")
-    .map(user => user.district)
-  )].sort();
+ const districts = [...new Set(users
+  .filter(user => user.district && user.role === "user")
+  .map(user => user.district.toLowerCase()) // Convert to lowercase
+)].sort();
 
   // Extract unique states from users for the dropdown - using root level state
   const states = [...new Set(users
@@ -228,24 +228,26 @@ const Dashboard = () => {
   )].sort();
 
   // Filter users based on search term and active filters - using root level district and state
-  const filteredUsers = users.filter(
-    (userItem) =>
-      userItem.role === "user" && (
-        userItem.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        userItem.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        (userItem.phone && userItem.phone.toLowerCase().includes(searchTerm.toLowerCase())) ||
-        (userItem.district && userItem.district.toLowerCase().includes(searchTerm.toLowerCase())) ||
-        (userItem.state && userItem.state.toLowerCase().includes(searchTerm.toLowerCase()))
-      ) && (
-        (!activeFilters.district || 
-         (userItem.district && 
-          userItem.district.toLowerCase().includes(activeFilters.district.toLowerCase())))
-      ) && (
-        (!activeFilters.state || 
-         (userItem.state && 
-          userItem.state.toLowerCase().includes(activeFilters.state.toLowerCase())))
-      )
-  );
+const filteredUsers = users.filter(
+  (userItem) =>
+    userItem.role === "user" && (
+      userItem.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      userItem.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      (userItem.phone && userItem.phone.toLowerCase().includes(searchTerm.toLowerCase())) ||
+      (userItem.district && userItem.district.toLowerCase().includes(searchTerm.toLowerCase())) ||
+      (userItem.state && userItem.state.toLowerCase().includes(searchTerm.toLowerCase()))
+    ) && (
+      // Apply district filter - using lowercase comparison
+      (!activeFilters.district || 
+       (userItem.district && 
+        userItem.district.toLowerCase().includes(activeFilters.district.toLowerCase())))
+    ) && (
+      // Apply state filter - using lowercase comparison
+      (!activeFilters.state || 
+       (userItem.state && 
+        userItem.state.toLowerCase().includes(activeFilters.state.toLowerCase())))
+    )
+);
 
   const isAdmin = user?.role === "admin";
 

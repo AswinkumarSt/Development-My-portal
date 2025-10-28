@@ -263,7 +263,7 @@
   }
   
   .detail-value {
-    padding: 10px 14px;
+    padding-left: 0;
     min-height: 44px;
     font-size: 0.95rem;
     border: none; /* Removed border for mobile */
